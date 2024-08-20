@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memory-game-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memory-game
+  template:
+    metadata:
+      labels:
+        app: memory-game
+    spec:
+      containers:
+      - name: memory-game
+        image: teocheta/memory_game
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memory-game-service
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: memory-game
